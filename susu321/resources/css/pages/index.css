@@ -135,9 +135,9 @@
 }
 
 .body .dataList li{
-	margin-right: 20.5px;
+	margin-right: 20px;
 	float: left;
-	margin-bottom: 20.5px;
+	margin-bottom: 20px;
 }
 .body .dataList li.mr0{
 	margin-right: 0;
@@ -208,7 +208,7 @@
 	float: left;
 }
 .body .pageAdv a.c{
-	margin: 0 29.5px;
+	margin: 0 29px;
 }
 .body .pageAdv a img{
 	width: 295px;
