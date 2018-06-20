@@ -3,40 +3,55 @@
 <head>
     <meta charset="UTF-8">
     <title>DEMO</title>
-    <style type="text/css">
-        img{
-            width: 80px;
-        }
-    </style>
+
 </head>
 <body>
 
-<div id="app">
-    use Vue
-    <div>
-        <img src="https://assets-cdn.github.com/images/modules/site/universe-logo.png">
-        <p>Become a sub tag of img</p>
-    </div>
-</div>
-<br/>
-<br/>
----------------------------------
-<br/>
-<br/>
 <div id="app2">
-    do Not Use Vue
-    <div>
-        <img src="https://assets-cdn.github.com/images/modules/site/universe-logo.png" />
-        <p>And img tags at the same level</p>
-    </div>
+    <button onclick="scanQrCode">扫描二维码</button>
 </div>
 
 </body>
-<script type="text/javascript" src="vue.js"></script>
 <script type="text/javascript">
-    //
-    new Vue({
-        el:"#app"
+
+    window._RNchannel={};
+
+    function scanQrCode(params){
+
+        params={};
+        params.error=function(data){
+
+        }
+        params.callback=function(data){
+
+        }
+        params.data={
+            name:"111",
+            age:"222"
+        }
+        params.data.channelId="channel"+Date.now();
+
+        window._RNchannel[params.data.channelId] = params;
+    }
+
+    function postMessageToReactNative(){
+        if (window.originalPostMessage) {
+            window.postMessage(data);
+        } else {
+            throw Error('postMessage接口还未注入');
+        }
+    }
+    document.addEventListener('message', function (e) {
+        var data = e.data;
+        try{
+            data = JSON.parase(data);
+            if(window._RNchannel[data.channelId]){
+                window._RNchannel[data.channelId].callback(data.data);
+                delete window._RNchannel[data.channelId]
+            }
+        }catch(e){
+
+        }
     });
 </script>
 </html>
