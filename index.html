@@ -54,8 +54,13 @@
     });
 </script>
 <div id="app2">
-    <button onclick="alert(1);scanQrCode()">扫描二维码1</button>
+    <button>扫描二维码1</button>
 </div>
-
+<script type="text/javascript">
+      document.getElementsByTagName('button')[0].addEventListener('click', function() {
+          alert(1)
+      window.postMessage('这是html发送到RN的消息');
+    });
+</script>
 </body>
 </html>
