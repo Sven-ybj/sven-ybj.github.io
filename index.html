@@ -27,9 +27,11 @@
         params.data.channelId="channel"+Date.now();
 
         window._RNchannel[params.data.channelId] = params;
+
+        postMessageToReactNative(params)
     }
 
-    function postMessageToReactNative(){
+    function postMessageToReactNative(data){
         if (window.originalPostMessage) {
             window.postMessage(data);
         } else {
