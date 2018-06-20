@@ -8,11 +8,10 @@
 <body>
 
 <script type="text/javascript">
-
     window._RNchannel={};
 
     function scanQrCode(params){
-        alert("scanQrCode")
+
         params={};
         params.error=function(data){
 
@@ -28,14 +27,12 @@
 
         window._RNchannel[params.data.channelId] = params;
 
-        postMessageToReactNative(params)
+        postMessageToReactNative(params.data)
     }
 
     function postMessageToReactNative(data){
-        alert(typeof window.originalPostMessage)
-        alert(typeof window.postMessage)
         if (window.originalPostMessage) {
-            window.postMessage(data);
+            window.postMessage(JSON.stringify(data));
         } else {
             throw Error('postMessage接口还未注入');
         }
