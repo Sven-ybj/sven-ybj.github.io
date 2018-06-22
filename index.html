@@ -41,6 +41,7 @@
     document.addEventListener('message', function (e) {
         var data = e.data;
         try{
+            alert(data)
             data = JSON.parase(data);
             if(window._RNchannel[data.channelId]){
                 window._RNchannel[data.channelId].callback(data.data);
