@@ -41,11 +41,11 @@
     document.addEventListener('message', function (e) {
         var data = e.data;
         try{
-            data = JSON.parse(data);
+            data = JSON.parse(data).data;
             alert(data.channelId)
             alert(window._RNchannel[data.channelId])
             if(window._RNchannel[data.channelId]){
-                window._RNchannel[data.channelId].callback(data.data);
+                window._RNchannel[data.channelId].callback(data);
                 delete window._RNchannel[data.channelId]
             }
         }catch(e){
