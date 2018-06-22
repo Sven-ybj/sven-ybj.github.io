@@ -43,7 +43,7 @@
         try{
             data = JSON.parase(data);
             if(window._RNchannel[data.channelId]){
-                window._RNchannel[data.channelId].callback(data.data);
+                window._RNchannel[data.channelId].callback(data);
                 delete window._RNchannel[data.channelId]
             }
         }catch(e){
