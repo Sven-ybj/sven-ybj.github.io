@@ -41,9 +41,7 @@
     document.addEventListener('message', function (e) {
         var data = e.data;
         try{
-            alert(typeof data)
             alert(data)
-            alert(data.data)
             data = JSON.parase(data);
             alert(typeof data)
             if(window._RNchannel[data.channelId]){
@@ -51,7 +49,7 @@
                 delete window._RNchannel[data.channelId]
             }
         }catch(e){
-            alert("error")
+            alert("error",e.message)
         }
     });
 </script>
