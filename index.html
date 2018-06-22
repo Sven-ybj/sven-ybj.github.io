@@ -42,8 +42,6 @@
         var data = e.data;
         try{
             data = JSON.parse(data).data;
-            alert(data.channelId)
-            alert(window._RNchannel[data.channelId])
             if(window._RNchannel[data.channelId]){
                 window._RNchannel[data.channelId].callback(data);
                 delete window._RNchannel[data.channelId]
