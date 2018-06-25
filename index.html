@@ -23,8 +23,28 @@
             name:"111",
             age:"222"
         }
+
+        sendData(params,"scanQrCode");
+    }
+
+    function getPushId(params){
+
+        params={};
+        params.error=function(data){
+
+        }
+        params.callback=function(data){
+            alert(data.id)
+        }
+
+        sendData(params,"getPushId");
+    }
+
+    function sendData(params,actionType){
+        params=params||{};
+
         params.data.channelId="channel"+Date.now();
-        params.data.actionType="scanQrCode";
+        params.data.actionType=actionType;
 
         window._RNchannel[params.data.channelId] = params;
 
@@ -52,11 +72,16 @@
     });
 </script>
 <div id="app2">
-    <button>扫描二维码3</button>
+    <button id="scanQrCode">扫描二维码</button>
+    <button id="pushId">获取推送唯一ID</button>
 </div>
 <script type="text/javascript">
-      document.getElementsByTagName('button')[0].addEventListener('click', function() {
-          scanQrCode()
+    document.getElementById('scanQrCode').addEventListener('click', function() {
+        scanQrCode()
+    });
+
+    document.getElementById('pushId').addEventListener('click', function() {
+        scanQrCode()
     });
 </script>
 </body>
