@@ -11,8 +11,8 @@
     window._RNchannel={};
 
     function scanQrCode(params){
-
-        params={};
+        params=params||{};
+        
         params.error=function(data){
 
         }
@@ -42,6 +42,7 @@
 
     function sendData(params,actionType){
         params=params||{};
+        params.data=params.data||{};
 
         params.data.channelId="channel"+Date.now();
         params.data.actionType=actionType;
@@ -72,8 +73,9 @@
     });
 </script>
 <div id="app2">
-    <button id="scanQrCode">扫描二维码</button>
-    <button id="pushId">获取推送唯一ID</button>
+    <button id="getUserAgent">getUserAgent</button><br/>
+    <button id="scanQrCode">扫描二维码</button><br/>
+    <button id="pushId">获取推送唯一ID</button><br/>
 </div>
 <script type="text/javascript">
     document.getElementById('scanQrCode').addEventListener('click', function() {
@@ -82,6 +84,9 @@
 
     document.getElementById('pushId').addEventListener('click', function() {
         getPushId()
+    });
+    document.getElementById('getUserAgent').addEventListener('click', function() {
+        alert(navigator.userAgent)
     });
 </script>
 </body>
