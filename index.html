@@ -14,7 +14,7 @@
 
         params=params||{};
         params.error=function(data){
-
+            alert(data.message)
         }
         params.callback=function(data){
             alert(data.code)
@@ -31,7 +31,7 @@
 
         params=params||{};
         params.error=function(data){
-
+            alert(data.message)
         }
         params.callback=function(data){
             alert(data.id)
@@ -44,7 +44,7 @@
 
         params=params||{};
         params.error=function(data){
-
+            alert(data.message)
         }
         params.callback=function(data){
             alert(data)
@@ -77,7 +77,13 @@
         try{
             data = JSON.parse(data).data;
             if(window._RNchannel[data.channelId]){
-                window._RNchannel[data.channelId].callback(data);
+                if(data.status == "fail"){
+                    window._RNchannel[data.channelId].callback(data);
+                }else{
+                    window._RNchannel[data.channelId].error(data);
+                }
+
+                //delete 
                 delete window._RNchannel[data.channelId]
             }
         }catch(e){
