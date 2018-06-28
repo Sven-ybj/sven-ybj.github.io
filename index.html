@@ -11,8 +11,8 @@
     window._RNchannel={};
 
     function scanQrCode(params){
-        params=params||{};
 
+        params=params||{};
         params.error=function(data){
 
         }
@@ -29,7 +29,7 @@
 
     function getPushId(params){
 
-        params={};
+        params=params||{};
         params.error=function(data){
 
         }
@@ -42,7 +42,7 @@
 
     function weChatShare(params){
 
-        params={};
+        params=params||{};
         params.error=function(data){
 
         }
@@ -89,7 +89,8 @@
     <button id="getUserAgent">getUserAgent</button><br/><br/>
     <button id="scanQrCode">扫描二维码</button><br/><br/>
     <button id="pushId">获取推送唯一ID</button><br/><br/>
-    <button id="weChatShare">微信分享-发送给朋友</button><br/><br/>
+    <button id="weChatShare">微信分享-发送给朋友-纯文本消息</button><br/><br/>
+    <button id="weChatShare2">微信分享-发送给朋友-分享链接</button><br/><br/>
 </div>
 <script type="text/javascript">
     document.getElementById('scanQrCode').addEventListener('click', function() {
@@ -103,7 +104,39 @@
         alert(navigator.userAgent)
     });
     document.getElementById('weChatShare').addEventListener('click', function() {
-        weChatShare()
+        
+        weChatShare({
+            shareType:"toSession",//发送给朋友
+            type:"text",
+            description:"微信分享-发送给朋友-纯文本消息"
+        });
+
+        /*
+            type 的可选值列表
+            type {news|text|imageUrl|imageFile|imageResource|video|audio|file}
+        */
+
+        /*
+            分享媒体信息时的数据选项
+            thumbImage {String} Thumb image of the message, which can be a uri or a resource id.
+            description {String} The description about the sharing.
+            webpageUrl {String} Required if type equals news. The webpage link to share.
+            imageUrl {String} Provide a remote image if type equals image.
+            videoUrl {String} Provide a remote video if type equals video.
+            musicUrl {String} Provide a remote music if type equals audio.
+            filePath {String} Provide a local file if type equals file.
+            fileExtension {String} Provide the file type if type equals file.
+        */
+    });
+    document.getElementById('weChatShare1').addEventListener('click', function() {
+        weChatShare({
+            shareType:"toSession",//发送给朋友
+            type:"news",
+            title:"微信好友测试的链接",
+            description:"微信分享-发送给朋友-分享链接",
+            thumbImage:"https://mmbiz.qlogo.cn/mmbiz_png/Ml65nrvICLZJtmdN1kXlvWOaHtKGcGPCURJEYLp3aX9N3bsysLl3eBcWmZQbysUD7Wicg8xqLF9FenK2IibAOKMw/0?wx_fmt=png",
+            webpageUrl:"http://www.youxuanyisheng.com/#/index"
+        });
     });
 </script>
 </body>
