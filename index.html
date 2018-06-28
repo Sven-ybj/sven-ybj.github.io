@@ -106,9 +106,11 @@
     document.getElementById('weChatShare').addEventListener('click', function() {
         
         weChatShare({
-            shareType:"toSession",//发送给朋友
-            type:"text",
-            description:"微信分享-发送给朋友-纯文本消息"
+            data:{
+                shareType:"toSession",//发送给朋友
+                type:"text",
+                description:"微信分享-发送给朋友-纯文本消息"
+            }
         });
 
         /*
@@ -117,7 +119,7 @@
         */
 
         /*
-            分享媒体信息时的数据选项1
+            分享媒体信息时的数据选项
             thumbImage {String} Thumb image of the message, which can be a uri or a resource id.
             description {String} The description about the sharing.
             webpageUrl {String} Required if type equals news. The webpage link to share.
@@ -130,12 +132,14 @@
     });
     document.getElementById('weChatShare1').addEventListener('click', function() {
         weChatShare({
-            shareType:"toSession",//发送给朋友
-            type:"news",
-            title:"微信好友测试的链接",
-            description:"微信分享-发送给朋友-分享链接",
-            thumbImage:"https://mmbiz.qlogo.cn/mmbiz_png/Ml65nrvICLZJtmdN1kXlvWOaHtKGcGPCURJEYLp3aX9N3bsysLl3eBcWmZQbysUD7Wicg8xqLF9FenK2IibAOKMw/0?wx_fmt=png",
-            webpageUrl:"http://www.youxuanyisheng.com/#/index"
+            data:{
+                shareType:"toSession",//发送给朋友
+                type:"news",
+                title:"微信好友测试的链接",
+                description:"微信分享-发送给朋友-分享链接",
+                thumbImage:"https://mmbiz.qlogo.cn/mmbiz_png/Ml65nrvICLZJtmdN1kXlvWOaHtKGcGPCURJEYLp3aX9N3bsysLl3eBcWmZQbysUD7Wicg8xqLF9FenK2IibAOKMw/0?wx_fmt=png",
+                webpageUrl:"http://www.youxuanyisheng.com/#/index"
+            }
         });
     });
 </script>
