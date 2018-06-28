@@ -12,7 +12,7 @@
 
     function scanQrCode(params){
         params=params||{};
-        
+
         params.error=function(data){
 
         }
@@ -38,6 +38,19 @@
         }
 
         sendData(params,"getPushId");
+    }
+
+    function weChatShare(params){
+
+        params={};
+        params.error=function(data){
+
+        }
+        params.callback=function(data){
+            alert(data)
+        }
+
+        sendData(params,"weChatShare");
     }
 
     function sendData(params,actionType){
@@ -73,9 +86,10 @@
     });
 </script>
 <div id="app2">
-    <button id="getUserAgent">getUserAgent</button><br/>
-    <button id="scanQrCode">扫描二维码</button><br/>
-    <button id="pushId">获取推送唯一ID</button><br/>
+    <button id="getUserAgent">getUserAgent</button><br/><br/>
+    <button id="scanQrCode">扫描二维码</button><br/><br/>
+    <button id="pushId">获取推送唯一ID</button><br/><br/>
+    <button id="weChatShare">微信分享-发送给朋友</button><br/><br/>
 </div>
 <script type="text/javascript">
     document.getElementById('scanQrCode').addEventListener('click', function() {
@@ -87,6 +101,9 @@
     });
     document.getElementById('getUserAgent').addEventListener('click', function() {
         alert(navigator.userAgent)
+    });
+    document.getElementById('weChatShare').addEventListener('click', function() {
+        weChatShare()
     });
 </script>
 </body>
