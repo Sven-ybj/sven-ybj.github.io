@@ -52,6 +52,18 @@
 
         sendData(params,"weChatShare");
     }
+    function aliPay(params){
+
+        params=params||{};
+        params.error=function(data){
+            alert(data.message)
+        }
+        params.callback=function(data){
+            alert(data)
+        }
+
+        sendData(params,"aliPay");
+    }
 
     function sendData(params,actionType){
         params=params||{};
@@ -99,6 +111,7 @@
     <button id="weChatShare1">微信分享-发送给朋友-分享图文链接</button><br/><br/>
     <button id="weChatShare2">微信分享-分享到朋友圈-纯文本消息</button><br/><br/>
     <button id="weChatShare3">微信分享-分享到朋友圈-分享图文链接</button><br/><br/>
+    <button id="aliPay">支付宝支付</button><br/><br/>
 </div>
 <script type="text/javascript">
     document.getElementById('scanQrCode').addEventListener('click', function() {
@@ -153,6 +166,9 @@
                 webpageUrl:"http://www.youxuanyisheng.com/#/index"
             }
         });
+    });
+    document.getElementById('aliPay').addEventListener('click', function() {
+        aliPay();
     });
 </script>
 </body>
