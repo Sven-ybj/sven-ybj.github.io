@@ -14,7 +14,7 @@
 
         params=params||{};
         params.error=function(data){
-            alert(data.message)
+            alert("error"+data.message)
         }
         params.callback=function(data){
             alert(data.code)
@@ -31,7 +31,7 @@
 
         params=params||{};
         params.error=function(data){
-            alert(data.message)
+            alert("error"+data.message)
         }
         params.callback=function(data){
             alert(data.id)
@@ -44,7 +44,7 @@
 
         params=params||{};
         params.error=function(data){
-            alert(data.message)
+            alert("error"+data.message)
         }
         params.callback=function(data){
             alert(data)
@@ -56,7 +56,7 @@
 
         params=params||{};
         params.error=function(data){
-            alert(data.message)
+            alert("error"+data.message)
         }
         params.callback=function(data){
             alert(data)
@@ -90,9 +90,9 @@
             data = JSON.parse(data).data;
             if(window._RNchannel[data.channelId]){
                 if(data.status == "fail"){
-                    window._RNchannel[data.channelId].callback(data);
-                }else{
                     window._RNchannel[data.channelId].error(data);
+                }else{
+                    window._RNchannel[data.channelId].callback(data);
                 }
 
                 //delete 
@@ -111,7 +111,8 @@
     <button id="weChatShare1">微信分享-发送给朋友-分享图文链接</button><br/><br/>
     <button id="weChatShare2">微信分享-分享到朋友圈-纯文本消息</button><br/><br/>
     <button id="weChatShare3">微信分享-分享到朋友圈-分享图文链接</button><br/><br/>
-    <button id="aliPay">支付宝支付</button><br/><br/>
+    <button id="aliPay">支付宝支付(APP生成假数据)</button><br/><br/>
+    <button id="aliPay1">支付宝支付(传入接口数据)</button><br/><br/>
 </div>
 <script type="text/javascript">
     document.getElementById('scanQrCode').addEventListener('click', function() {
@@ -169,6 +170,13 @@
     });
     document.getElementById('aliPay').addEventListener('click', function() {
         aliPay();
+    });
+    document.getElementById('aliPay1').addEventListener('click', function() {
+        aliPay({
+            data:{
+                payData:"服务端接口返回的支付数据"
+            }
+        });
     });
 </script>
 </body>
