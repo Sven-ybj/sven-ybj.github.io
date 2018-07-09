@@ -99,6 +99,7 @@
     document.addEventListener('message', function (e) {
         var data = e.data;
         try{
+            alert(data)
             data = JSON.parse(data).data;
             if(window._RNchannel[data.channelId]){
                 if(data.status == "fail"){
