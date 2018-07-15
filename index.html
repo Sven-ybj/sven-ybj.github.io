@@ -99,7 +99,6 @@
     document.addEventListener('message', function (e) {
         var data = e.data;
         try{
-            alert(data)
             data = JSON.parse(data).data;
             if(window._RNchannel[data.channelId]){
                 if(data.status == "fail"){
@@ -193,7 +192,9 @@
             data:{
                 //未encodeURI之前的数据，encodeURI是服务端做的。前端拿到数据不做任何处理
                 //charset=utf-8&biz_content={"timeout_express":"30m","product_code":"QUICK_MSECURITY_PAY","total_amount":"0.01","subject":"1","body":"我是测试数据","out_trade_no":"918283219"}&method=alipay.trade.app.pay&app_id=2018061760412485&sign_type=RSA2&version=1.0&timestamp=2016-07-29+16:55:53&sign=LEYjHGPwoLh0ibfPuJLMfrjqAf1lospBUDJdKg1lYBJEMqEqeV1AxYcSMBuGHGBxEPdCAm5DG1pAj5UI/a4HV4rdtowwR3MP7LOxUdjh8S1HKXXa9T2JAU8G1tyKunTpkRDRr4U17WNDf9iyLe3EMqhQQ+x621Vz9gyJ0bf3qe9XJ2MESWZXDmZ3Sh7ZBYC0jPJd75wX5Q4UdUtiLTVO7izuhoQe1SYUfCnfRTUd+mnvB2B2E8TrZpps/VG00ipxUvcKHyaJPPZ/srOR9toPTo2mkUslEeHLmr7g/KdLjzAD+9GwWthAvjFaw6BC0a9vSp2ocGE5PfuCw1Cr05Nu3g==
-                payData:"charset=utf-8&biz_content=%7B%22timeout_express%22%3A%2230m%22%2C%22product_code%22%3A%22QUICK_MSECURITY_PAY%22%2C%22total_amount%22%3A%220.01%22%2C%22subject%22%3A%221%22%2C%22body%22%3A%22%E6%88%91%E6%98%AF%E6%B5%8B%E8%AF%95%E6%95%B0%E6%8D%AE%22%2C%22out_trade_no%22%3A%22918283219%22%7D&method=alipay.trade.app.pay&app_id=2018061760412485&sign_type=RSA2&version=1.0&timestamp=2016-07-29+16%3A55%3A53&sign=LEYjHGPwoLh0ibfPuJLMfrjqAf1lospBUDJdKg1lYBJEMqEqeV1AxYcSMBuGHGBxEPdCAm5DG1pAj5UI%2Fa4HV4rdtowwR3MP7LOxUdjh8S1HKXXa9T2JAU8G1tyKunTpkRDRr4U17WNDf9iyLe3EMqhQQ%2Bx621Vz9gyJ0bf3qe9XJ2MESWZXDmZ3Sh7ZBYC0jPJd75wX5Q4UdUtiLTVO7izuhoQe1SYUfCnfRTUd%2BmnvB2B2E8TrZpps%2FVG00ipxUvcKHyaJPPZ%2FsrOR9toPTo2mkUslEeHLmr7g%2FKdLjzAD%2B9GwWthAvjFaw6BC0a9vSp2ocGE5PfuCw1Cr05Nu3g%3D%3D"
+                //payData:"charset=utf-8&biz_content=%7B%22timeout_express%22%3A%2230m%22%2C%22product_code%22%3A%22QUICK_MSECURITY_PAY%22%2C%22total_amount%22%3A%220.01%22%2C%22subject%22%3A%221%22%2C%22body%22%3A%22%E6%88%91%E6%98%AF%E6%B5%8B%E8%AF%95%E6%95%B0%E6%8D%AE%22%2C%22out_trade_no%22%3A%22918283219%22%7D&method=alipay.trade.app.pay&app_id=2018061760412485&sign_type=RSA2&version=1.0&timestamp=2016-07-29+16%3A55%3A53&sign=LEYjHGPwoLh0ibfPuJLMfrjqAf1lospBUDJdKg1lYBJEMqEqeV1AxYcSMBuGHGBxEPdCAm5DG1pAj5UI%2Fa4HV4rdtowwR3MP7LOxUdjh8S1HKXXa9T2JAU8G1tyKunTpkRDRr4U17WNDf9iyLe3EMqhQQ%2Bx621Vz9gyJ0bf3qe9XJ2MESWZXDmZ3Sh7ZBYC0jPJd75wX5Q4UdUtiLTVO7izuhoQe1SYUfCnfRTUd%2BmnvB2B2E8TrZpps%2FVG00ipxUvcKHyaJPPZ%2FsrOR9toPTo2mkUslEeHLmr7g%2FKdLjzAD%2B9GwWthAvjFaw6BC0a9vSp2ocGE5PfuCw1Cr05Nu3g%3D%3D"
+
+                payData:"alipay_sdk=alipay-sdk-java-3.1.0&app_id=2018061760412485&biz_content=%7B%22out_trade_no%22%3A%22rc1531643729425%22%2C%22product_code%22%3A%22QUICK_MSECURITY_PAY%22%2C%22subject%22%3A%22%E5%9B%BE%E6%96%87%E9%97%AE%E8%AF%8A%EF%BC%9A%E5%92%B3%E5%97%BD%E5%B9%B6%E5%92%BD%E5%96%89%E7%97%9B%EF%BC%88%E9%97%AE%E8%AF%8A%E6%A0%87%E9%A2%98%EF%BC%89%22%2C%22timeout_express%22%3A%2230m%22%2C%22total_amount%22%3A0.01%2C%22trade_type%22%3A%220%22%7D&charset=utf-8&format=json&method=alipay.trade.app.pay&notify_url=http%3A%2F%2Fwww.youxuanyisheng.com%2FRechargeNotifyurl%3Ftrade_type%3D0%26curr_user_id%3D1000000046%26curr_user_type%3D0&sign=afV5MNwMwKf7x85RAT6h%2FqIzPJDx2LXFCkAW7BcIQTK7uUzkqrd10vMAGNF8yiw18wOqWpG1Z7YzoXjUt6GptRrpDkr2Z%2Bp8FBroVKA12r%2BOvknXt87CG4IA%2FpQnMJr2Wy10bwXlZbB33yMCg7iTqKsF7TSLv%2F6IBPVOOz%2F44kD3AXU4%2Fp3qkprAkOPp9KfBHOMUMXygWxQw1y3N45Wi71xkK8dXJR9qPWqQOWCxjgS1lsXqTFWODGZGavuALqxTQSQmyip7TKLAti1zX5SraYaTeYvKS71Z6Mxg43WpNOsXoi1rJct7bxpyW1TL14N7jIJnR1RByfKgq98PKcAE3A%3D%3D&sign_type=RSA2&timestamp=2018-07-15+16%3A35%3A30&version=1.0"
             }
         });
     });
