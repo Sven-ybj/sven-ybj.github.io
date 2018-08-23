@@ -88,10 +88,22 @@
         }
         params.callback=function(data){
             //alert(data)
-            document.getElementById("imagePickerShow").src='data:image/jpeg;base64,'+data.result;
+            document.getElementById("imagePickerShow").src='data:image/jpeg;base64,'+data.result.data;
         }
 
         sendData(params,"imagePicker");
+    }
+    function setBadge(params){
+
+        params=params||{};
+        params.error=function(data){
+            // alert("error"+data.message)
+        }
+        params.callback=function(data){
+            //alert(data)
+        }
+
+        sendData(params,"setBadge");
     }
 
     function sendData(params,actionType){
@@ -149,6 +161,7 @@
     <button id="weChatPay">微信支付(APP生成假数据)</button><br/><br/>
     <button id="weChatPay1">微信支付(传入接口数据)</button><br/><br/>
     <button id="imagePicker">选择照片</button><br/><br/>
+    <button id="setBadge">设置角标 10</button><br/><br/>
     <img src="" id="imagePickerShow"><br/>
 </div>
 <script type="text/javascript">
@@ -224,8 +237,23 @@
         weChatPay();
     });
     document.getElementById('imagePicker').addEventListener('click', function() {
-        imagePicker();
+        imagePicker({
+            data:{
+                options:{ // options 有默认值，可以不传入
+                  quality:0.75, // app的默认值，可以不传
+                  maxWidth:1500, // app的默认值，可以不传
+                }
+            }
+        });
     });
+    document.getElementById('setBadge').addEventListener('click', function() {
+        setBadge({
+            data:{
+                number:10
+            }
+        });
+    });
+
 </script>
 </body>
 </html>
