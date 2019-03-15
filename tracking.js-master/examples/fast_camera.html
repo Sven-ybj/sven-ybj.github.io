@@ -9,12 +9,14 @@
 
   <style>
   video, canvas {
+    width: 100%;
+    height: auto;
   }
   </style>
 </head>
 <body>
-    <video id="video" width="320" height="240" preload autoplay loop muted></video>
-    <canvas id="canvas" width="320" height="240"></canvas>
+    <video id="video" preload autoplay loop muted></video>
+    <canvas id="canvas" ></canvas>
    
   <script>
     window.onload = function() {
@@ -28,7 +30,6 @@
       
 
       tracker.on('track', function(event) {
-        // trackerTask.stop();
         context.clearRect(0, 0, canvas.width, canvas.height);
 
         context.drawImage(video, 0, 0, canvas.width, canvas.height);  // 将video中的数据绘制到canvas里
@@ -39,11 +40,12 @@
       });
 
       setInterval(function(){
-        trackerTask.stop();
-        // trackerTask.run();
+        // trackerTask.stop();
+        trackerTask.run();
       },5000);
 
       function saveImage (canvas, filename) {
+        trackerTask.stop();
         var image = canvas.toDataURL('image/png').replace('image/png', 'image/octet-stream');
       }
     };
