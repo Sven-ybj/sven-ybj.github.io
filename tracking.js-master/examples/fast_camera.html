@@ -3,33 +3,19 @@
 <head>
   <meta charset="utf-8">
   <title>tracking.js - face with camera</title>
-  <link rel="stylesheet" href="assets/demo.css">
 
   <script src="../build/tracking-min.js"></script>
   <script src="../build/data/face-min.js"></script>
-   <script src="../node_modules/dat.gui/build/dat.gui.min.js"></script>
-  <script src="assets/stats.min.js"></script>
 
   <style>
   video, canvas {
-    margin-left: 230px;
-    margin-top: 120px;
-    position: absolute;
   }
   </style>
 </head>
 <body>
-  <div class="demo-title">
-    <p><a href="http://trackingjs.com" target="_parent">tracking.js</a> － get user's webcam and detect faces</p>
-  </div>
-
-  <div class="demo-frame">
-    <div class="demo-container">
-      <video id="video" width="320" height="240" preload autoplay loop muted></video>
-      <canvas id="canvas" width="320" height="240"></canvas>
-    </div>
-  </div>
-
+    <video id="video" width="320" height="240" preload autoplay loop muted></video>
+    <canvas id="canvas" width="320" height="240"></canvas>
+   
   <script>
     window.onload = function() {
       var video = document.getElementById('video');
@@ -39,10 +25,10 @@
       var tracker = new tracking.ObjectTracker('face');
 
       var trackerTask = tracking.track('#video', tracker, { camera: true });
-      trackerTask.stop();
+      
 
       tracker.on('track', function(event) {
-        trackerTask.stop();
+        // trackerTask.stop();
         context.clearRect(0, 0, canvas.width, canvas.height);
 
         context.drawImage(video, 0, 0, canvas.width, canvas.height);  // 将video中的数据绘制到canvas里
@@ -53,7 +39,8 @@
       });
 
       setInterval(function(){
-        trackerTask.run();
+        trackerTask.stop();
+        // trackerTask.run();
       },5000);
 
       function saveImage (canvas, filename) {
