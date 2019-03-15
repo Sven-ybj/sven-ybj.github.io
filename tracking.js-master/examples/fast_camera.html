@@ -35,11 +35,14 @@
       
 
       tracker.on('track', function(event) {
-        if(flag && video.videoWidth){
+        if(flag && div.clientHeight){
           video.pause();
-          context.clearRect(0, 0, video.videoWidth, video.videoHeight);
+          context.width = div.clientWidth;
+          context.height = div.clientHeight;
 
-          context.drawImage(video, 0, 0, video.videoWidth, video.videoHeight);  // 将video中的数据绘制到canvas里
+          context.clearRect(0, 0, div.clientWidth, div.clientHeight);
+
+          context.drawImage(video, 0, 0, div.clientWidth, div.clientHeight);  // 将video中的数据绘制到canvas里
 
           saveImage(canvas);  // 存储图片到本地
 
