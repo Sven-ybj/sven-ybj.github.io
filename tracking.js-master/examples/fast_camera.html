@@ -33,13 +33,17 @@
     <div id="div">
       <video id="video" preload autoplay loop muted></video>
     </div>
-    3秒钟自动拍照一次
+    3秒钟自动拍照一次<br/>
+    <span id="span">
+
+    </span>
    
   <script>
     // window.onload = function() {
       var video = document.getElementById('video');
       var canvas = document.getElementById('canvas');
       var div=document.getElementById('div');
+      var span=document.getElementById('span');
       var context = canvas.getContext('2d');
       var flag = true;
 
@@ -51,6 +55,7 @@
       tracker.on('track', function(event) {
         if(flag && div.clientHeight){
 
+          var t = Date.now();
           canvas.width = div.clientWidth;
           canvas.height = div.clientHeight;
 
@@ -62,6 +67,7 @@
 
           flag = false;
 
+          span.innerText = "处理耗时 " + (Date.now() - t) + "ms";
           setTimeout(function(){
               flag = true;
           },3000);
