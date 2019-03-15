@@ -50,7 +50,7 @@
 
       tracker.on('track', function(event) {
         if(flag && div.clientHeight){
-          video.pause();
+          
           canvas.width = div.clientWidth;
           canvas.height = div.clientHeight;
 
@@ -65,12 +65,7 @@
       });
 
       setInterval(function(){
-        video.play();
-
-        setTimeout(function(){
           flag = true;
-        },100);
-
       },3000);
 
       function saveImage (canvas) {
