@@ -50,7 +50,7 @@
 
       tracker.on('track', function(event) {
         if(flag && div.clientHeight){
-          
+
           canvas.width = div.clientWidth;
           canvas.height = div.clientHeight;
 
@@ -61,12 +61,12 @@
           saveImage(canvas);  // 存储图片到本地
 
           flag = false;
+
+          setTimeout(function(){
+              flag = true;
+          },3000);
         }
       });
-
-      setInterval(function(){
-          flag = true;
-      },3000);
 
       function saveImage (canvas) {
         var image = canvas.toDataURL('image/png');
