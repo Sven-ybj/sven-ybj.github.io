@@ -38,7 +38,7 @@
 
   <script>
     var MyTracker = function() {
-      MyTracker(this, 'constructor');
+      MyTracker.base(this, 'constructor');
     }
     tracking.inherits(MyTracker, tracking.Tracker);
 
@@ -52,7 +52,7 @@
       }
     }
 
-    var myTracker = new tracking.MyTracker();
+    var myTracker = new MyTracker();
 
     myTracker.on('track', function(event) {
       // Results are inside the event
