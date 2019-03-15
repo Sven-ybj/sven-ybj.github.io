@@ -1,65 +1,56 @@
 <!doctype html>
-
 <html>
 <head>
-  <title>tracking.js -  feature detector with camera</title>
-
   <meta charset="utf-8">
+  <title>tracking.js - face with camera</title>
   <link rel="stylesheet" href="assets/demo.css">
 
   <script src="../build/tracking-min.js"></script>
+  <script src="../build/data/face-min.js"></script>
+   <script src="../node_modules/dat.gui/build/dat.gui.min.js"></script>
+  <script src="assets/stats.min.js"></script>
 
   <style>
-  #video {
-    position: absolute;
-    top: -1000px;
-  }
-
-  #canvas {
-    left: 50%;
-    top: 50%;
-    margin-left: -200px;
-    margin-top: -150px;
+  video, canvas {
+    margin-left: 230px;
+    margin-top: 120px;
     position: absolute;
   }
   </style>
 </head>
 <body>
   <div class="demo-title">
-    <p><a href="http://trackingjs.com" target="_parent">tracking.js</a> － display detected features</p>
+    <p><a href="http://trackingjs.com" target="_parent">tracking.js</a> － get user's webcam and detect faces</p>
   </div>
 
   <div class="demo-frame">
     <div class="demo-container">
-      <video id="myVideo" width="400" height="300" preload autoplay loop muted></video>
-      <canvas id="canvas" width="400" height="300"></canvas>
+      <video id="video" width="320" height="240" preload autoplay loop muted></video>
+      <canvas id="canvas" width="320" height="240"></canvas>
     </div>
   </div>
 
   <script>
-    var MyTracker = function() {
-      MyTracker.base(this, 'constructor');
-    }
-    tracking.inherits(MyTracker, tracking.Tracker);
+    window.onload = function() {
+      var video = document.getElementById('video');
+      var canvas = document.getElementById('canvas');
+      var context = canvas.getContext('2d');
 
-    var MyTracker = function() {
-      MyTracker.prototype.track = function(pixels, width, height) {
-        // Your code here
+      var tracker = new tracking.ObjectTracker('face');
+      tracker.setInitialScale(4);
+      tracker.setStepSize(2);
+      tracker.setEdgesDensity(0.1);
 
-        this.emit('track', {
-          // Your results here
-        });
-      }
-    }
+      tracking.track('#video', tracker, { camera: true });
 
-    var myTracker = new MyTracker();
+      tracker.on('track', function(event) {
+        context.clearRect(0, 0, canvas.width, canvas.height);
 
-    myTracker.on('track', function(event) {
-      // Results are inside the event
-    });
-
-    tracking.track('#myVideo', myTracker);
-
+        context.drawImage(video, 0, 0, canvas.width, canvas.height);  // 将video中的数据绘制到canvas里
+        
+      });
+    };
   </script>
+
 </body>
 </html>
