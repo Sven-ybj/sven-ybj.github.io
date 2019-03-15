@@ -35,10 +35,11 @@
       
 
       tracker.on('track', function(event) {
-        if(flag && div.clientWidth){
-          context.clearRect(0, 0, div.clientWidth, div.clientHeight);
+        if(flag && video.videoWidth){
+          video.pause();
+          context.clearRect(0, 0, video.videoWidth, video.videoHeight);
 
-          context.drawImage(video, 0, 0, div.clientWidth, div.clientHeight);  // 将video中的数据绘制到canvas里
+          context.drawImage(video, 0, 0, video.videoWidth, video.videoHeight);  // 将video中的数据绘制到canvas里
 
           saveImage(canvas);  // 存储图片到本地
 
@@ -48,6 +49,7 @@
 
       setInterval(function(){
         flag = true;
+        video.play();
       },3000);
 
       function saveImage (canvas) {
