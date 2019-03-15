@@ -2,6 +2,7 @@
 <html>
 <head>
   <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <title>tracking.js - face with camera</title>
 
   <script src="../build/tracking-min.js"></script>
@@ -30,23 +31,22 @@
       
 
       tracker.on('track', function(event) {
+        trackerTask.stop();
         context.clearRect(0, 0, canvas.width, canvas.height);
 
         context.drawImage(video, 0, 0, canvas.width, canvas.height);  // 将video中的数据绘制到canvas里
 
 
-        saveImage(canvas, 'screen_' + new Date().getTime() + '.png');  // 存储图片到本地
+        saveImage(canvas);  // 存储图片到本地
 
       });
 
-      setInterval(function(){
-        // trackerTask.stop();
+      setTimeout(function(){
         trackerTask.run();
       },5000);
 
-      function saveImage (canvas, filename) {
-        trackerTask.stop();
-        var image = canvas.toDataURL('image/png').replace('image/png', 'image/octet-stream');
+      function saveImage (canvas) {
+        var image = canvas.toDataURL('image/png');
       }
     };
   </script>
