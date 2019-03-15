@@ -9,7 +9,7 @@
   <script src="../build/data/face-min.js"></script>
 
   <style>
-  video, canvas {
+  video {
     width: 100%;
     height: auto;
   }
@@ -37,8 +37,8 @@
       tracker.on('track', function(event) {
         if(flag && div.clientHeight){
           video.pause();
-          context.width = div.clientWidth;
-          context.height = div.clientHeight;
+          canvas.width = div.clientWidth;
+          canvas.height = div.clientHeight;
 
           context.clearRect(0, 0, div.clientWidth, div.clientHeight);
 
