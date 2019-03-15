@@ -8,8 +8,6 @@
   <link rel="stylesheet" href="assets/demo.css">
 
   <script src="../build/tracking-min.js"></script>
-  <script src="../node_modules/dat.gui/build/dat.gui.min.js"></script>
-  <script src="assets/stats.min.js"></script>
 
   <style>
   #video {
@@ -39,14 +37,29 @@
   </div>
 
   <script>
-    var canvas = document.getElementById('canvas');
-    var context = canvas.getContext('2d');
-    
-    var myTracker = new tracking.Tracker('target');
+    var MyTracker = function() {
+      MyTracker(this, 'constructor');
+    }
+    tracking.inherits(MyTracker, tracking.Tracker);
 
+    var MyTracker = function() {
+      MyTracker.prototype.track = function(pixels, width, height) {
+        // Your code here
 
-    var trackerTask = tracking.track('#video', myTracker);
-    
+        this.emit('track', {
+          // Your results here
+        });
+      }
+    }
+
+    var myTracker = new tracking.MyTracker();
+
+    myTracker.on('track', function(event) {
+      // Results are inside the event
+    });
+
+    tracking.track('#myVideo', myTracker);
+
   </script>
 </body>
 </html>
