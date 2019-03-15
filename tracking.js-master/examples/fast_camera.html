@@ -16,14 +16,18 @@
   </style>
 </head>
 <body>
-    <video id="video" preload autoplay loop muted></video>
+    <div>
+      <video id="video" preload autoplay loop muted></video>
+    </div>
     <canvas id="canvas" ></canvas>
    
   <script>
     window.onload = function() {
       var video = document.getElementById('video');
       var canvas = document.getElementById('canvas');
+      var div=document.getElementById('div');
       var context = canvas.getContext('2d');
+      var flag = true;
 
       var tracker = new tracking.ObjectTracker('face');
 
@@ -31,18 +35,19 @@
       
 
       tracker.on('track', function(event) {
-        trackerTask.stop();
-        context.clearRect(0, 0, canvas.width, canvas.height);
+        if(flag){
+          context.clearRect(0, 0, div.clientWidth, div.clientHeight);
 
-        context.drawImage(video, 0, 0, canvas.width, canvas.height);  // 将video中的数据绘制到canvas里
+          context.drawImage(video, 0, 0, div.clientWidth, div.clientHeight);  // 将video中的数据绘制到canvas里
 
+          saveImage(canvas);  // 存储图片到本地
 
-        saveImage(canvas);  // 存储图片到本地
-
+          flag = false;
+        }
       });
 
       setTimeout(function(){
-        trackerTask.run();
+        flag = true;
       },5000);
 
       function saveImage (canvas) {
