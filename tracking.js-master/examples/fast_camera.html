@@ -22,7 +22,7 @@
     <canvas id="canvas" ></canvas>
    
   <script>
-    window.onload = function() {
+    // window.onload = function() {
       var video = document.getElementById('video');
       var canvas = document.getElementById('canvas');
       var div=document.getElementById('div');
@@ -35,7 +35,7 @@
       
 
       tracker.on('track', function(event) {
-        if(flag){
+        if(flag && div.clientWidth){
           context.clearRect(0, 0, div.clientWidth, div.clientHeight);
 
           context.drawImage(video, 0, 0, div.clientWidth, div.clientHeight);  // 将video中的数据绘制到canvas里
@@ -46,14 +46,14 @@
         }
       });
 
-      setTimeout(function(){
+      setInterval(function(){
         flag = true;
-      },5000);
+      },3000);
 
       function saveImage (canvas) {
         var image = canvas.toDataURL('image/png');
       }
-    };
+    // };
   </script>
 
 </body>
