@@ -41,8 +41,11 @@
   <script>
     var canvas = document.getElementById('canvas');
     var context = canvas.getContext('2d');
+    
+    var myTracker = new tracking.Tracker('target');
 
-    new tracking.VideoCamera().render('canvas')
+
+    var trackerTask = tracking.track('#video', myTracker);
     
   </script>
 </body>
