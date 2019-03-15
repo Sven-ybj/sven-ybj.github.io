@@ -34,9 +34,8 @@
       <video id="video" preload autoplay loop muted></video>
     </div>
     3秒钟自动拍照一次<br/>
-    <span id="span">
-
-    </span>
+    <span id="span"></span><br/>
+    <b id="b"></b>
    
   <script>
     // window.onload = function() {
@@ -44,6 +43,8 @@
       var canvas = document.getElementById('canvas');
       var div=document.getElementById('div');
       var span=document.getElementById('span');
+      var b=document.getElementById('b');
+      var tem = 0;
       var context = canvas.getContext('2d');
       var flag = true;
 
@@ -66,13 +67,18 @@
           saveImage(canvas);  // 存储图片到本地
 
           flag = false;
-
-          span.innerText = "处理耗时 " + (Date.now() - t) + "ms";
+          
+          tem = Date.now();
+          span.innerText = "处理耗时 " + (tem - t) + "ms";
           setTimeout(function(){
               flag = true;
           },3000);
         }
       });
+
+      setInterval(function(){
+        b.innerText = "等待耗时 " + (Date.now() - tem) + "ms";
+      },500);
 
       function saveImage (canvas) {
         var image = canvas.toDataURL('image/png');
