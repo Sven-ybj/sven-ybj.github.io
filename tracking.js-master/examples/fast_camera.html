@@ -9,17 +9,32 @@
   <script src="../build/data/face-min.js"></script>
 
   <style>
+  body{
+    padding: 0;
+    margin: 0;
+  }
   video {
     width: 100%;
     height: auto;
+    visibility: hidden; 
+
+    z-index: -1;
+    position: relative;
+  }
+  canvas{
+    position: absolute;
+    z-index: 1;
+    top: 0;
+    left: 0;
   }
   </style>
 </head>
 <body>
+    <canvas id="canvas" ></canvas>
     <div id="div">
       <video id="video" preload autoplay loop muted></video>
     </div>
-    <canvas id="canvas" ></canvas>
+    3秒钟自动拍照一次
    
   <script>
     // window.onload = function() {
@@ -51,8 +66,12 @@
       });
 
       setInterval(function(){
-        flag = true;
         video.play();
+
+        setTimeout(function(){
+          flag = true;
+        },100);
+
       },3000);
 
       function saveImage (canvas) {
