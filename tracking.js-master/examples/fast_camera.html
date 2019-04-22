@@ -21,7 +21,7 @@
     top: 100px;
     left: 100px;
   }
-  canvas{
+  img{
     /*position: absolute;*/
     z-index: 1;
     top: 0;
@@ -30,7 +30,7 @@
   </style>
 </head>
 <body>
-    <canvas id="canvas" ></canvas>
+    <img id="img"/>
     <div id="div">
       <video id="video" preload autoplay loop muted style=""></video>
     </div>
@@ -39,133 +39,171 @@
     <b id="b"></b>
    
   <script>
-  function scalingImage(imgWidth, imgHeight, containerWidth, containerHeight) {
-    var containerRatio = containerWidth / containerHeight;
-    var imgRatio = imgWidth / imgHeight;
-
-    if (imgRatio > containerRatio) {
-        imgWidth = containerWidth;
-        imgHeight = containerWidth / imgRatio;
-    } else if (imgRatio < containerRatio) {
-        imgHeight = containerHeight;
-        imgWidth = containerHeight * imgRatio;
-    } else {
-        imgWidth = containerWidth;
-        imgHeight = containerHeight;
+  var clickHandle = function() {
+    if(navigator.mediaDevices === undefined) {
+      navigator.mediaDevices = {};
     }
 
-    return { width: imgWidth, height: imgHeight };
-}
+    if(navigator.mediaDevices.getUserMedia === undefined) {
+      navigator.mediaDevices.getUserMedia = function(constraints) {
 
-    // window.onload = function() {
-      var video = document.getElementById('video');
-      var canvas = document.getElementById('canvas');
-      var div=document.getElementById('div');
-      var span=document.getElementById('span');
-      var b=document.getElementById('b');
-      var tem = 0;
-      var context = canvas.getContext('2d');
-      var flag = true;
+        var getUserMedia = (navigator.getUserMedia ||
+        navigator.webkitGetUserMedia ||
+        navigator.mozGetUserMedia);
 
-      var WHeight = window.screen.height;
-      var WWidth = window.screen.width;
-
-      var touchstart = false, 
-          startPos ={},
-          maxLeft = 0,
-          maxTop = 0,
-          posLeft = 0,
-          posTop = 0,
-          touch = {};
-
-      var cureeX = 100,cureeY = 100;
-      video.addEventListener('touchstart', function(){
-        touchstart = true;
-        touch = event.targetTouches[0]; //touches数组对象获得屏幕上所有的touch，取第一个touch
-        startPos = {x:touch.pageX,y:touch.pageY,time:+new Date}; //取第一个touch的坐标值
-        isScrolling = 0; //这个参数判断是垂直滚动还是水平滚动
-        maxTop = WHeight - video.clientHeight;
-        maxLeft = WWidth - video.clientWidth;
-      });
-      video.addEventListener('touchend', function(){
-        touchstart = false;
-
-        cureeX = parseInt(video.style.left || 100);
-        cureeY = parseInt(video.style.top || 100);
-      });
-      video.addEventListener('touchmove', function(event){
-        if(!touchstart) { return }
-        //当屏幕有多个touch或者页面被缩放过，就不执行move操作
-        if(event.targetTouches.length > 1 || event.scale && event.scale !== 1) return;
-        touch = event.targetTouches[0];
-        endPos = {x:touch.pageX - startPos.x,y:touch.pageY - startPos.y};
-        //isScrolling为1时，表示纵向滑动，0为横向滑动
-        isScrolling = Math.abs(endPos.x) < Math.abs(endPos.y) ? 1:0; 
-        
-        posLeft = Math.max(Math.min(endPos.x + cureeX,maxLeft), 0);
-        posTop = Math.max(Math.min(endPos.y + cureeY,maxTop), 0);
-
-        video.style.left = posLeft + 'px';
-        video.style.top = posTop + 'px';
-
-
-        event.preventDefault(); //阻止触摸事件的默认行为，即阻止滚屏
-      });
-
-      var FastTracker = function() {
-        FastTracker.base(this, 'constructor');
-      };
-      tracking.inherits(FastTracker, tracking.Tracker);
-
-      FastTracker.prototype.track = function(pixels, width, height) {
-        this.emit('track', {
-          data: null
-        });
-      };
-
-      var tracker = new FastTracker();
-
-      var trackerTask = tracking.track('#video', tracker, { camera: true });
-      
-
-      tracker.on('track', function(event) {
-        if(flag && video.clientHeight){
-
-          var t = Date.now();
-
-          var _tem = scalingImage(video.clientWidth,video.clientHeight , 370 ,800);
-
-          var width = _tem.width;
-          var height = _tem.height;
-
-          canvas.width = width;
-          canvas.height = height;
-
-          context.clearRect(0, 0, width, height);
-
-          context.drawImage(video, 0, 0, width, height);  // 将video中的数据绘制到canvas里
-
-          saveImage(canvas);  // 存储图片到本地
-
-          flag = false;
-          console.log(flag , width , height)
-          
-          tem = Date.now();
-          span.innerText = "处理耗时 " + (tem - t) + "ms";
-          setTimeout(function(){
-              flag = true;
-          },3000);
+        if(!getUserMedia) {
+          return Promise.reject(new Error('抱歉，您的浏览器不支持摄像头拍摄'));
         }
-      });
 
-      setInterval(function(){
-        b.innerText = "等待耗时 " + (Date.now() - tem) + "ms";
-      },500);
-
-      function saveImage (canvas) {
-        var image = canvas.toDataURL('image/png');
+        return new Promise(function(resolve, reject) {
+          getUserMedia(constraints, resolve, reject);
+        });
       }
-    // };
+    }
+    // 如果用户许可，调用then，如果用户拒绝或者出错调用catch
+    navigator.mediaDevices.getUserMedia({ video: true }).then(()=>{
+      // 当用户点击对话框中允许调用相机按钮执行的事件
+      console.log('1')
+      start();
+    }).catch(()=>{
+      // 当用户点击对话框中禁止按钮，或者其他错误
+      alert('请选择允许使用摄像头后开始考试')
+    })
+  }
+  clickHandle();
+
+  function start(){
+    function scalingImage(imgWidth, imgHeight, containerWidth, containerHeight) {
+      var containerRatio = containerWidth / containerHeight;
+      var imgRatio = imgWidth / imgHeight;
+
+      if (imgRatio > containerRatio) {
+          imgWidth = containerWidth;
+          imgHeight = containerWidth / imgRatio;
+      } else if (imgRatio < containerRatio) {
+          imgHeight = containerHeight;
+          imgWidth = containerHeight * imgRatio;
+      } else {
+          imgWidth = containerWidth;
+          imgHeight = containerHeight;
+      }
+
+      return { width: imgWidth, height: imgHeight };
+    }
+
+    var video = document.getElementById('video');
+    var canvas = document.createElement('canvas');//document.getElementById('canvas');
+    var div=document.getElementById('div');
+    var span=document.getElementById('span');
+    var b=document.getElementById('b');
+    var tem = 0;
+    var context = canvas.getContext('2d');
+    var flag = true;
+
+    var WHeight = window.screen.height;
+    var WWidth = window.screen.width;
+
+    var touchstart = false, 
+        startPos ={},
+        maxLeft = 0,
+        maxTop = 0,
+        posLeft = 0,
+        posTop = 0,
+        touch = {},
+        _tem = {};
+
+    var cureeX = 100,cureeY = 100;
+    video.addEventListener('touchstart', function(){
+      touchstart = true;
+      touch = event.targetTouches[0]; //touches数组对象获得屏幕上所有的touch，取第一个touch
+      startPos = {x:touch.pageX,y:touch.pageY,time:+new Date}; //取第一个touch的坐标值
+      isScrolling = 0; //这个参数判断是垂直滚动还是水平滚动
+      maxTop = WHeight - video.clientHeight;
+      maxLeft = WWidth - video.clientWidth;
+    });
+    video.addEventListener('touchend', function(){
+      touchstart = false;
+
+      cureeX = parseInt(video.style.left || 100);
+      cureeY = parseInt(video.style.top || 100);
+    });
+    video.addEventListener('touchmove', function(event){
+      if(!touchstart) { return }
+      //当屏幕有多个touch或者页面被缩放过，就不执行move操作
+      if(event.targetTouches.length > 1 || event.scale && event.scale !== 1) return;
+      touch = event.targetTouches[0];
+      endPos = {x:touch.pageX - startPos.x,y:touch.pageY - startPos.y};
+      //isScrolling为1时，表示纵向滑动，0为横向滑动
+      isScrolling = Math.abs(endPos.x) < Math.abs(endPos.y) ? 1:0; 
+      
+      posLeft = Math.max(Math.min(endPos.x + cureeX,maxLeft), 0);
+      posTop = Math.max(Math.min(endPos.y + cureeY,maxTop), 0);
+
+      video.style.left = posLeft + 'px';
+      video.style.top = posTop + 'px';
+
+
+      event.preventDefault(); //阻止触摸事件的默认行为，即阻止滚屏
+    });
+
+    var FastTracker = function() {
+      FastTracker.base(this, 'constructor');
+    };
+    tracking.inherits(FastTracker, tracking.Tracker);
+
+    FastTracker.prototype.track = function(pixels, width, height) {
+      this.emit('track', {
+        data: null
+      });
+    };
+
+    var tracker = new FastTracker();
+
+    var trackerTask = tracking.track('#video', tracker, { camera: true });
+    
+
+    tracker.on('track', function(event) {
+      if(flag && video.clientHeight){
+
+        var t = Date.now();
+
+        if(!_tem.width){
+          _tem = scalingImage(video.clientWidth,video.clientHeight , window.screen.width ,window.screen.height);
+        }
+
+        var width = _tem.width;
+        var height = _tem.height;
+
+        canvas.width = width;
+        canvas.height = height;
+
+        context.clearRect(0, 0, width, height);
+
+        context.drawImage(video, 0, 0, width, height);  // 将video中的数据绘制到canvas里
+
+        saveImage(canvas);  // 存储图片到本地
+
+        flag = false;
+        console.log(flag , width , height)
+        
+        tem = Date.now();
+        span.innerText = "处理耗时 " + (tem - t) + "ms";
+        setTimeout(function(){
+            flag = true;
+        },3000);
+      }
+    });
+
+    setInterval(function(){
+      b.innerText = "等待耗时 " + (Date.now() - tem) + "ms";
+    },500);
+
+    function saveImage (canvas) {
+      var image = canvas.toDataURL('image/png');
+      document.getElementById('img').src = image;
+    }
+
+  }
   </script>
 
 </body>
