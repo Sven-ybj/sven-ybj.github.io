@@ -6,7 +6,6 @@
   <title>tracking.js - face with camera</title>
 
   <script src="../build/tracking-min.js"></script>
-  <script src="../build/data/face-min.js"></script>
 
   <style>
   body{
@@ -14,14 +13,14 @@
     margin: 0;
   }
   video {
-    width: 100%;
+    width: 100px;
     height: auto;
 
     z-index: -1;
     position: relative;
   }
   canvas{
-    position: absolute;
+    /*position: absolute;*/
     z-index: 1;
     top: 0;
     left: 0;
@@ -38,7 +37,8 @@
     <b id="b"></b>
    
   <script>
-    // window.onload = function() {
+    window.onload = function() {
+      console.log('onload')
       var video = document.getElementById('video');
       var canvas = document.getElementById('canvas');
       var div=document.getElementById('div');
@@ -48,7 +48,23 @@
       var context = canvas.getContext('2d');
       var flag = true;
 
-      var tracker = new tracking.ObjectTracker('face');
+      var FastTracker = function() {
+        FastTracker.base(this, 'constructor');
+      };
+      tracking.inherits(FastTracker, tracking.Tracker);
+
+      // tracking.Fast.THRESHOLD = 2;
+      // FastTracker.prototype.threshold = tracking.Fast.THRESHOLD;
+
+      FastTracker.prototype.track = function(pixels, width, height) {
+        this.emit('track', {
+          data: null
+        });
+      };
+
+      var tracker = new FastTracker();
+
+      // var tracker = new tracking.ObjectTracker('face');
 
       var trackerTask = tracking.track('#video', tracker, { camera: true });
       
@@ -57,16 +73,20 @@
         if(flag && div.clientHeight){
 
           var t = Date.now();
-          canvas.width = div.clientWidth;
-          canvas.height = div.clientHeight;
+          var width = 370 || div.clientWidth;
+          var height = 210 || div.clientHeight;
 
-          context.clearRect(0, 0, div.clientWidth, div.clientHeight);
+          canvas.width = width;
+          canvas.height = height;
 
-          context.drawImage(video, 0, 0, div.clientWidth, div.clientHeight);  // 将video中的数据绘制到canvas里
+          context.clearRect(0, 0, width, height);
+
+          context.drawImage(video, 0, 0, width, height);  // 将video中的数据绘制到canvas里
 
           saveImage(canvas);  // 存储图片到本地
 
           flag = false;
+          console.log(flag , width , height)
           
           tem = Date.now();
           span.innerText = "处理耗时 " + (tem - t) + "ms";
@@ -83,7 +103,7 @@
       function saveImage (canvas) {
         var image = canvas.toDataURL('image/png');
       }
-    // };
+    };
   </script>
 
 </body>
