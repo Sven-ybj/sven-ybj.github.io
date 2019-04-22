@@ -16,8 +16,10 @@
     width: 100px;
     height: auto;
 
-    z-index: -1;
-    position: relative;
+    z-index: 1;
+    position: absolute;
+    top: 100px;
+    left: 100px;
   }
   canvas{
     /*position: absolute;*/
@@ -30,15 +32,32 @@
 <body>
     <canvas id="canvas" ></canvas>
     <div id="div">
-      <video id="video" preload autoplay loop muted></video>
+      <video id="video" preload autoplay loop muted style=""></video>
     </div>
     3秒钟自动拍照一次<br/>
     <span id="span"></span><br/>
     <b id="b"></b>
    
   <script>
-    window.onload = function() {
-      console.log('onload')
+  function scalingImage(imgWidth, imgHeight, containerWidth, containerHeight) {
+    var containerRatio = containerWidth / containerHeight;
+    var imgRatio = imgWidth / imgHeight;
+
+    if (imgRatio > containerRatio) {
+        imgWidth = containerWidth;
+        imgHeight = containerWidth / imgRatio;
+    } else if (imgRatio < containerRatio) {
+        imgHeight = containerHeight;
+        imgWidth = containerHeight * imgRatio;
+    } else {
+        imgWidth = containerWidth;
+        imgHeight = containerHeight;
+    }
+
+    return { width: imgWidth, height: imgHeight };
+}
+
+    // window.onload = function() {
       var video = document.getElementById('video');
       var canvas = document.getElementById('canvas');
       var div=document.getElementById('div');
@@ -48,13 +67,55 @@
       var context = canvas.getContext('2d');
       var flag = true;
 
+      var WHeight = window.screen.height;
+      var WWidth = window.screen.width;
+
+      var touchstart = false, 
+          startPos ={},
+          maxLeft = 0,
+          maxTop = 0,
+          _left = 0,
+          _top = 0,
+          touch = {};
+
+      var cureeX = 100,cureeY = 100;
+      video.addEventListener('touchstart', function(){
+        touchstart = true;
+        touch = event.targetTouches[0]; //touches数组对象获得屏幕上所有的touch，取第一个touch
+        startPos = {x:touch.pageX,y:touch.pageY,time:+new Date}; //取第一个touch的坐标值
+        isScrolling = 0; //这个参数判断是垂直滚动还是水平滚动
+        maxTop = WHeight - video.clientHeight;
+        maxLeft = WWidth - video.clientWidth;
+      });
+      video.addEventListener('touchend', function(){
+        touchstart = false;
+
+        cureeX = parseInt(video.style.left || 100);
+        cureeY = parseInt(video.style.top || 100);
+      });
+      video.addEventListener('touchmove', function(event){
+        if(!touchstart) { return }
+        //当屏幕有多个touch或者页面被缩放过，就不执行move操作
+        if(event.targetTouches.length > 1 || event.scale && event.scale !== 1) return;
+        touch = event.targetTouches[0];
+        endPos = {x:touch.pageX - startPos.x,y:touch.pageY - startPos.y};
+        //isScrolling为1时，表示纵向滑动，0为横向滑动
+        isScrolling = Math.abs(endPos.x) < Math.abs(endPos.y) ? 1:0; 
+        
+        _left = Math.max(Math.min(endPos.x + cureeX,maxLeft), 0);
+        _top = Math.max(Math.min(endPos.y + cureeY,maxTop), 0);
+
+        video.style.left = _left + 'px';
+        video.style.top = _top + 'px';
+
+
+        event.preventDefault(); //阻止触摸事件的默认行为，即阻止滚屏
+      });
+
       var FastTracker = function() {
         FastTracker.base(this, 'constructor');
       };
       tracking.inherits(FastTracker, tracking.Tracker);
-
-      // tracking.Fast.THRESHOLD = 2;
-      // FastTracker.prototype.threshold = tracking.Fast.THRESHOLD;
 
       FastTracker.prototype.track = function(pixels, width, height) {
         this.emit('track', {
@@ -64,17 +125,18 @@
 
       var tracker = new FastTracker();
 
-      // var tracker = new tracking.ObjectTracker('face');
-
       var trackerTask = tracking.track('#video', tracker, { camera: true });
       
 
       tracker.on('track', function(event) {
-        if(flag && div.clientHeight){
+        if(flag && video.clientHeight){
 
           var t = Date.now();
-          var width = 370 || div.clientWidth;
-          var height = 210 || div.clientHeight;
+
+          var _tem = scalingImage(video.clientWidth,video.clientHeight , 370 ,800);
+
+          var width = _tem.width;
+          var height = _tem.height;
 
           canvas.width = width;
           canvas.height = height;
@@ -103,7 +165,7 @@
       function saveImage (canvas) {
         var image = canvas.toDataURL('image/png');
       }
-    };
+    // };
   </script>
 
 </body>
