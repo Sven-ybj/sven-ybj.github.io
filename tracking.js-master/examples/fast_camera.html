@@ -74,8 +74,8 @@
           startPos ={},
           maxLeft = 0,
           maxTop = 0,
-          _left = 0,
-          _top = 0,
+          posLeft = 0,
+          posTop = 0,
           touch = {};
 
       var cureeX = 100,cureeY = 100;
@@ -102,11 +102,11 @@
         //isScrolling为1时，表示纵向滑动，0为横向滑动
         isScrolling = Math.abs(endPos.x) < Math.abs(endPos.y) ? 1:0; 
         
-        _left = Math.max(Math.min(endPos.x + cureeX,maxLeft), 0);
-        _top = Math.max(Math.min(endPos.y + cureeY,maxTop), 0);
+        posLeft = Math.max(Math.min(endPos.x + cureeX,maxLeft), 0);
+        posTop = Math.max(Math.min(endPos.y + cureeY,maxTop), 0);
 
-        video.style.left = _left + 'px';
-        video.style.top = _top + 'px';
+        video.style.left = posLeft + 'px';
+        video.style.top = posTop + 'px';
 
 
         event.preventDefault(); //阻止触摸事件的默认行为，即阻止滚屏
