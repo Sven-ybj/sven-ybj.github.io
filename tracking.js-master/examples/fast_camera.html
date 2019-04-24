@@ -64,13 +64,46 @@
     navigator.mediaDevices.getUserMedia({ video: true }).then(()=>{
       // 当用户点击对话框中允许调用相机按钮执行的事件
       console.log('1')
-      start();
+      // start();
     }).catch(()=>{
       // 当用户点击对话框中禁止按钮，或者其他错误
       alert('请选择允许使用摄像头后开始考试')
     })
   }
-  clickHandle();
+  var getUserMedia= function(){
+    return new Promise((resolve, reject) => {
+        if(navigator.mediaDevices === undefined) {
+          navigator.mediaDevices = {};
+        }
+
+        if(navigator.mediaDevices.getUserMedia === undefined) {
+          navigator.mediaDevices.getUserMedia = (constraints) => {
+
+            var getUserMedia = (navigator.getUserMedia ||
+            navigator.webkitGetUserMedia ||
+            navigator.mozGetUserMedia);
+
+            if(!getUserMedia) {
+                talert('抱歉，您的浏览器不支持摄像头拍摄');
+                return Promise.reject(new Error('抱歉，您的浏览器不支持摄像头拍摄'));
+            }
+
+            return new Promise(function(resolve, reject) {
+              getUserMedia(constraints, resolve, reject);
+            });
+          }
+        }
+        // 如果用户许可，调用then，如果用户拒绝或者出错调用catch
+        navigator.mediaDevices.getUserMedia({ video: true }).then(()=>{
+          // 当用户点击对话框中允许调用相机按钮执行的事件
+          resolve();
+        }).catch(()=>{
+          // 当用户点击对话框中禁止按钮，或者其他错误
+            alert('请选择允许使用摄像头后开始考试');
+        })
+    });
+  }
+  getUserMedia();
 
   function start(){
     function scalingImage(imgWidth, imgHeight, containerWidth, containerHeight) {
