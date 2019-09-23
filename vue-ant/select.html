@@ -16,7 +16,7 @@
     <body>
       <div id="app">
         select:
-        <a-select :show-search="true" :options="options" v-modal="value" style="width:200px" />
+        <a-select :show-search="true" :options="options" v-modal="value" default-value="value1" style="width:200px" :filterOption="filterOption"/>
       </div>
     </body>
     <script type="text/javascript">
@@ -24,7 +24,7 @@
         el: '#app',
         data: {
           message: 'Hello Vue!',
-          value:"",
+          value:"value",
           options:(function(){
             var result = [];
             for(var i=0;i<20;i++){
@@ -32,6 +32,11 @@
             }
             return result
           })()
+        },
+        methods:{
+          filterOption:function(inputValue){
+              return true
+          }
         }
       })
     </script>
