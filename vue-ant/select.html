@@ -16,7 +16,7 @@
     <body>
       <div id="app">
         select:
-        <a-select showSearch :options="options" v-modal="value" style="width:200px" />
+        <a-select :show-search="true" :options="options" v-modal="value" style="width:200px" />
       </div>
     </body>
     <script type="text/javascript">
@@ -30,7 +30,7 @@
             for(var i=0;i<20;i++){
               result.push({ label:"label"+i,value:"value"+i })
             }
-            return result;
+            return result
           })()
         }
       })
