@@ -9,18 +9,27 @@
 
 <body>
   <div id="app">
-    <button onclick="shareWebtoWeChat(1)">分享到微信好友</button>
-    <button onclick="shareWebtoWeChat(2)">分享到微信朋友圈</button>
+    <button onclick="shareWebtoWeChat(0)">分享到微信好友</button>
+    <button onclick="shareWebtoWeChat(1)">分享到微信朋友圈</button>
   </div>
   <script type="text/javascript" src="./jsBridge.js"></script>
   <script type="text/javascript">
     function shareWebtoWeChat(type){
       jsBridge.native.shareWebtoWeChat({
         title: '分享到微信标题',
-        type: type, // 1.好友 2.朋友圈
+        type: type, // 0.好友 1.朋友圈
         url: "https://test.95590.cn/bdmobilevue1/index.html#/loginMain/login",
         desc: "分享的文字描述信息",
         img: "https://www.baidu.com/img/bd_logo1.png",//配图地址，必须是http开头的绝对路径
+        fun:function(res){
+          // 成功
+          if (res.signStatus == "1") {
+            alert('成功')
+          }else{
+            // 失败
+            alert('失败')
+          }
+        }
       })
     }
   </script>
