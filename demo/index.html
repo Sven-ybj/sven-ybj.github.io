@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>demo</title>
+</head>
+
+<body>
+  <div id="app">
+    <button @click="shareWebtoWeChat(1)">分享到微信好友</button>
+    <button @click="shareWebtoWeChat(2)">分享到微信朋友圈</button>
+  </div>
+  <script type="text/javascript" src="./jsBridge.js"></script>
+  <script type="text/javascript">
+    function shareWebtoWeChat(type){
+      jsBridge.native.shareWebtoWeChat({
+        title: '分享到微信标题',
+        type: type, // 1.好友 2.朋友圈
+        url: "https://test.95590.cn/bdmobilevue1/index.html#/loginMain/login",
+        desc: "分享的文字描述信息",
+        img: "https://www.baidu.com/img/bd_logo1.png",//配图地址，必须是http开头的绝对路径
+      })
+    }
+  </script>
+</body>
+
+</html>
